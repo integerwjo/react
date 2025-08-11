@@ -13,12 +13,14 @@ import {
 import { useParams, useNavigate } from 'react-router-dom';
 
 const PlayerDetailsCard = () => {
+const apiUrl = import.meta.env.VITE_API_URL;
+const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
 
   const { id } = useParams(); 
   const [player, setPlayer] = useState()
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/players/${id}/`)
+    fetch(`${apiUrl}/players/${id}/`)
       .then(res => res.json())
       .then(data => setPlayer(data))
       .catch(err => console.error('Failed to fetch club:', err));
@@ -90,9 +92,6 @@ const PlayerDetailsCard = () => {
               </Typography>
               <Typography variant="body1" color="text.secondary">
                 Height: <strong>{height ?? '—'}</strong> cm
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                Nationality: <strong>{nationality ?? '—'}</strong>
               </Typography>
             </Stack>
           </Grid>

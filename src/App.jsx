@@ -20,6 +20,11 @@ import ChatScreen from "./Chats.jsx"; // Importing Chat component
 import ChatRoom from "./ChatRoom.jsx"; // Importing ChatRoom component
 
 
+const apiUrl = import.meta.env.VITE_API_URL;
+const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
+
+
+
 function App() {
   const [clubs, setClubs] = useState([]);
   const [matchResults, setMatchResults] = useState([]);
@@ -29,28 +34,28 @@ function App() {
   const [players, setPlayers] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/standings/')
+    fetch(`${apiUrl}/standings/`)
       .then(res => res.json())
       .then(data => setClubStats(data))
       .catch(err => console.error('Error fetching club stats:', err));
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/clubs/')
+    fetch(`${apiUrl}/clubs/`)
       .then(res => res.json())
       .then(data => setClubs(data))
       .catch(err => console.error('Error fetching clubs:', err));
   }, []);
 
    useEffect(() => {
-    fetch('http://localhost:8000/api/news/')
+    fetch(`${apiUrl}/news/`)
       .then(res => res.json())
       .then(data => setNewsArticles(data))
       .catch(err => console.error('Error fetching news articles:', err));
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/fixtures/')
+    fetch(`${apiUrl}/fixtures/`)
       .then(res => res.json())
       .then(data => setMatchFixtures(data))
       .catch(err => console.error('Error fetching match fixtures:', err));
@@ -58,7 +63,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/results/')
+    fetch(`${apiUrl}/results/`)
       .then(res => res.json())
       .then(data => setMatchResults(data))
       .catch(err => console.error('Error fetching match results:', err));

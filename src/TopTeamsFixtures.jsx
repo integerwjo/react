@@ -8,6 +8,8 @@ import {
   Box,
 } from "@mui/material";
 import dayjs from "dayjs";
+const apiUrl = import.meta.env.VITE_API_URL;
+const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
 
 const TopTeamFixtures = ({ fixtures }) => {
   return (
@@ -20,7 +22,7 @@ const TopTeamFixtures = ({ fixtures }) => {
                 {/* Team A */}
                 <Grid item xs={5} textAlign="center">
                   <Avatar
-                    src={fixture.team_a.logo}
+                    src={`${apiUrl}/${fixture.team_a.logo}`}
                     alt={fixture.team_a.name}
                     sx={{ width: 60, height: 60, mx: "auto", mb: 1 }}
                   />
@@ -39,7 +41,7 @@ const TopTeamFixtures = ({ fixtures }) => {
                 {/* Team B */}
                 <Grid item xs={5} textAlign="center">
                   <Avatar
-                    src={fixture.team_b.logo}
+                    src={`${apiUrl}/${fixture.team_b.logo}`}
                     alt={fixture.team_b.name}
                     sx={{ width: 60, height: 60, mx: "auto", mb: 1 }}
                   />

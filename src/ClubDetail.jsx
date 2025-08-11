@@ -16,13 +16,18 @@ import {
 } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
+
+
+
 const ClubDetailsCard = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [team, setTeam] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/clubs/${id}/`)
+    fetch(`${apiUrl}/clubs/${id}/`)
       .then(res => res.json())
       .then(setTeam)
       .catch(console.error);
@@ -91,7 +96,7 @@ const ClubDetailsCard = () => {
             src={
               top_scorer.photo?.startsWith('http')
                 ? top_scorer.photo
-                : `http://10.66.137.120:8000${top_scorer.photo}`
+                : `${apiUrl}${top_scorer.photo}`
             }
             alt={top_scorer.name}
             sx={{ width: 64, height: 64, mr: 2 }}

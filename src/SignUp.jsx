@@ -10,6 +10,8 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+const apiUrl = import.meta.env.VITE_API_URL;
+const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
 
 export default function SignUpForm() {
   const [form, setForm] = useState({
@@ -54,7 +56,7 @@ export default function SignUpForm() {
     setLoading(true);
 
     try {
-      const res = await fetch('http://10.66.137.120:8000/api/register/', {
+      const res = await fetch(`${apiUrl}/register/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

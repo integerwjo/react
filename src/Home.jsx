@@ -26,10 +26,12 @@ function Home() {
   const [loadingScorers, setLoadingScorers] = useState(true);
 
   const topTeams = ['Team A', 'Team B']; // ← replace with actual top two team names
+  const apiUrl = import.meta.env.VITE_API_URL;
+const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
 
   useEffect(() => {
     // Fetch news
-    fetch('http://localhost:8000/api/news/')
+    fetch(`${apiUrl}/news/`)
       .then(res => res.json())
       .then(data => {
         setArticles(data);
@@ -41,7 +43,7 @@ function Home() {
       });
 
     // Fetch fixtures
-    fetch('http://localhost:8000/api/top-teams-fixtures/')
+    fetch(`${apiUrl}/top-teams-fixtures/`)
       .then(res => res.json())
       .then(data => {
         setFixtures(data);
@@ -53,7 +55,7 @@ function Home() {
       });
 
     // Fetch top scorers
-    fetch('http://localhost:8000/api/top-scorers/')
+    fetch(`${apiUrl}/top-scorers/`)
       .then(res => res.json())
       .then(data => {
         setTopScorers(data.slice(0, 3)); // take top 3
@@ -201,7 +203,7 @@ function Home() {
             }}
           >
             <Avatar
-              src={`http://localhost:8000${player.photo}`}
+              src={`${apiUrl}/${player.photo}`}
               alt={player.player_name}
               sx={{ width: 64, height: 64, mr: 2, borderRadius: 2 }}
               variant="rounded"

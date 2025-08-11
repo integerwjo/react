@@ -16,6 +16,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
+
+
 export default function SignIn() {
   const [form, setForm] = useState({ username: '', password: '' });
   const [errors, setErrors] = useState({});
@@ -45,7 +49,7 @@ export default function SignIn() {
     setErrors({});
 
     try {
-      const response = await fetch("http://localhost:8000/api/token/", {
+      const response = await fetch(`${apiUrl}/token/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

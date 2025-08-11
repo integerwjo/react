@@ -25,9 +25,13 @@ const isTokenExpired = (token) => {
   return decoded.exp * 1000 < Date.now();
 };
 
+const apiUrl = import.meta.env.VITE_API_URL;
+const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
+
+
 const getNewAccessToken = async (refreshToken) => {
   try {
-    const res = await fetch("http://localhost:8000/api/token/refresh/", {
+    const res = await fetch(`${apiUrl}/token/refresh/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refresh: refreshToken }),
@@ -65,7 +69,7 @@ const ChatScreen = () => {
       return;
     }
 
-    const wsUrl = `ws://${window.location.hostname}:8000/ws/chat/?token=${token}`;
+    const wsUrl = `${wsUrl}?token=${token}`;
     console.log("Connecting with token:", token);
     const ws = new WebSocket(wsUrl);
 
