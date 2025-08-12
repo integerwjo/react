@@ -10,6 +10,7 @@ import {
 import dayjs from "dayjs";
 const apiUrl = import.meta.env.VITE_API_URL;
 const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
+const mediaUrl = import.meta.env.VITE_MEDIA_URL;
 
 const TopTeamFixtures = ({ fixtures }) => {
   return (
@@ -21,13 +22,8 @@ const TopTeamFixtures = ({ fixtures }) => {
               <Grid container alignItems="center" spacing={2}>
                 {/* Team A */}
                 <Grid item xs={5} textAlign="center">
-                  <Avatar
-                    src={`${apiUrl}/${fixture.team_a.logo}`}
-                    alt={fixture.team_a.name}
-                    sx={{ width: 60, height: 60, mx: "auto", mb: 1 }}
-                  />
                   <Typography variant="subtitle1" fontWeight="bold">
-                    {fixture.team_a.name}
+                    {fixture.team_a.team_a_name}
                   </Typography>
                 </Grid>
 
@@ -40,13 +36,8 @@ const TopTeamFixtures = ({ fixtures }) => {
 
                 {/* Team B */}
                 <Grid item xs={5} textAlign="center">
-                  <Avatar
-                    src={`${apiUrl}/${fixture.team_b.logo}`}
-                    alt={fixture.team_b.name}
-                    sx={{ width: 60, height: 60, mx: "auto", mb: 1 }}
-                  />
                   <Typography variant="subtitle1" fontWeight="bold">
-                    {fixture.team_b.name}
+                    {fixture.team_b.team_b_name}
                   </Typography>
                 </Grid>
               </Grid>

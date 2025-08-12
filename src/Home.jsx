@@ -24,10 +24,10 @@ function Home() {
   const [loadingNews, setLoadingNews] = useState(true);
   const [loadingFixtures, setLoadingFixtures] = useState(true);
   const [loadingScorers, setLoadingScorers] = useState(true);
-
   const topTeams = ['Team A', 'Team B']; // ← replace with actual top two team names
   const apiUrl = import.meta.env.VITE_API_URL;
-const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
+  const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
+  const mediaUrl = import.meta.env.VITE_MEDIA_URL;
 
   useEffect(() => {
     // Fetch news
@@ -203,7 +203,7 @@ const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
             }}
           >
             <Avatar
-              src={`${apiUrl}/${player.photo}`}
+              src={`${mediaUrl}${player.photo}`}
               alt={player.player_name}
               sx={{ width: 64, height: 64, mr: 2, borderRadius: 2 }}
               variant="rounded"

@@ -40,13 +40,9 @@ const News = ({ articles }) => {
               maxWidth: 550,
               borderRadius: 1,
               overflow: 'hidden',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.08)',
               transition: 'transform 0.3s ease, box-shadow 0.3s ease',
               cursor: 'pointer',
-              '&:hover': {
-                transform: 'translateY(-1px)',
-                boxShadow: '0 0.5px 1px rgba(0,0,0,0.7)',
-              },
             }}
           >
             <CardActionArea>

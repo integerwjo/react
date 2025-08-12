@@ -69,9 +69,9 @@ const ChatScreen = () => {
       return;
     }
 
-    const wsUrl = `${wsUrl}?token=${token}`;
+   
     console.log("Connecting with token:", token);
-    const ws = new WebSocket(wsUrl);
+    const ws = new WebSocket(`${wsUrl}/?token=${token}`);
 
     ws.onopen = () => console.log("WS opened:", wsUrl);
     ws.onerror = (err) => console.error("WebSocket error:", err);
