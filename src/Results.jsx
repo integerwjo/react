@@ -38,10 +38,10 @@ const MatchResults = ({ results }) => {
                   <Box display="flex" alignItems="center" flex={1} minWidth={0}>
                     <Avatar
                       sx={{ bgcolor: 'primary.main', width: 42, height: 42, fontSize: 18, mr: 1 }}
-                      src={match.team_a?.logo}
+                      src={match.team_a?.photo_url}
                       alt={match.team_a?.name || ''}
                     >
-                      {!match.team_a?.logo && getInitials(match.team_a?.name)}
+                      {!match.team_a?.photo_url && getInitials(match.team_a?.name)}
                     </Avatar>
                     <Typography
                       variant="subtitle1"
@@ -73,10 +73,10 @@ const MatchResults = ({ results }) => {
                     </Typography>
                     <Avatar
                       sx={{ bgcolor: 'primary.main', width: 42, height: 42, fontSize: 18 }}
-                      src={match.team_b?.logo}
+                      src={match.team_b?.photo_url}
                       alt={match.team_b?.name || ''}
                     >
-                      {!match.team_b?.logo && getInitials(match.team_b?.name)}
+                      {!match.team_b?.photo_url && getInitials(match.team_b?.name)}
                     </Avatar>
                   </Box>
                 </Box>

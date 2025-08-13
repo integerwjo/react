@@ -35,7 +35,7 @@ const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
             age,
             height,
             nationality,
-            photo,
+            photo_url,
             foot,
             club,
             club_name,
@@ -59,7 +59,7 @@ const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
           {/* Avatar */}
           <Grid item xs={12} sm={4}>
             <Avatar
-              src={photo}
+              src={photo_url}
               alt={name}
               sx={{
                 width: 160,

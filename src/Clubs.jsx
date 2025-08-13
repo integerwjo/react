@@ -41,11 +41,16 @@ const Clubs = ({ data }) => {
               <TableCell>{index + 1}</TableCell>
               <TableCell>
                 <Box display="flex" alignItems="center">
-                  {team.logo && (
-                    <Avatar src={team.logo} alt={team.name} sx={{ mr: 1 }} />
-                  )}
-                  <Typography variant="body1">{team.name}</Typography>
-                </Box>
+                  {team.logo_url ? (
+                    <Avatar src={team.logo_url} alt={team.name} sx={{ mr: 1 }} />
+                  ) : (
+                    <Avatar>{team.name.charAt(0)}</Avatar> // fallback
+                        )}
+                        {console.log(team.logo_url)}
+                        <Typography variant="body1">{team.name}</Typography>
+                      </Box>
+                 
+
               </TableCell>
               <TableCell>{team.coach}</TableCell>
             </TableRow>

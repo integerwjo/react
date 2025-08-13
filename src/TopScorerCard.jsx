@@ -15,7 +15,7 @@ const TopScorerCard = ({ player }) => {
     >
       <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Avatar
-          src={player.photo}
+          src={player.photo_url}
           alt={player.name}
           sx={{ width: 64, height: 64, border: '2px solid #fbc02d' }}
         />

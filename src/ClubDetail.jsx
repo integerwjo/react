@@ -18,7 +18,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
-
+const mediaUrl = import.meta.env.VITE_MEDIA_URL;
 
 
 const ClubDetailsCard = () => {
@@ -52,7 +52,7 @@ const ClubDetailsCard = () => {
         <CardContent>
           <Box display="flex" alignItems="center" gap={3} mb={3} flexWrap="wrap">
             <Avatar
-              src={logo}
+              src={photo_url}
               alt={name}
               sx={{
                 width: 80,
@@ -94,9 +94,9 @@ const ClubDetailsCard = () => {
         >
           <Avatar
             src={
-              top_scorer.photo?.startsWith('http')
-                ? top_scorer.photo
-                : `${apiUrl}${top_scorer.photo}`
+              top_scorer.photo_url?.startsWith('http')
+                ? top_scorer.photo_url
+                : `${top_scorer.photo_url}`
             }
             alt={top_scorer.name}
             sx={{ width: 64, height: 64, mr: 2 }}
@@ -161,8 +161,8 @@ const ClubDetailsCard = () => {
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>
                       <Box display="flex" alignItems="center">
-                        {player.photo && (
-                          <Avatar src={player.photo} alt={player.name} sx={{ width: 30, height: 30, mr: 1 }} />
+                        {player.photo_url && (
+                          <Avatar src={player.photo_url} alt={player.name} sx={{ width: 30, height: 30, mr: 1 }} />
                         )}
                         {player.name}
                       </Box>

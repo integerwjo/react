@@ -39,7 +39,7 @@ const MatchFixtures = ({ fixtures }) => {
                 {/* Team A */}
                 <Box display="flex" alignItems="center" flex={1} justifyContent="flex-end">
                   <Avatar
-                    src={match.team_a?.logo}
+                    src={match.team_a?.photo_url}
                     alt={match.team_a?.name}
                     sx={{ width: 42, height: 42, mr: 1 }}
                   />
@@ -64,7 +64,7 @@ const MatchFixtures = ({ fixtures }) => {
                     {match.team_b?.name}
                   </Typography>
                   <Avatar
-                    src={match.team_b?.logo}
+                    src={match.team_b?.photo_url}
                     alt={match.team_b?.name}
                     sx={{ width: 42, height: 42 }}
                   />
