@@ -46,11 +46,11 @@ const News = ({ articles }) => {
             }}
           >
             <CardActionArea>
-              {article.photo_url && (
+              {article.image_url && (
                 <CardMedia
                   component="img"
                   height="260"
-                  image={article.photo_url}
+                  image={article.image_url}
                   alt={article.title}
                   sx={{
                     objectFit: 'cover',

@@ -150,10 +150,10 @@ function Home() {
                     onClick={() => handleCardClick(article.id)}
                   >
                     <CardActionArea sx={{ height: '100%' }}>
-                      {article.photo_url && (
+                      {article.image_url && (
                         <CardMedia
                           component="img"
-                          image={article.photo_url}
+                          image={article.image_url}
                           alt={article.title}
                           height="180"
                         />
@@ -203,8 +203,8 @@ function Home() {
             }}
           >
             <Avatar
-              src={`${mediaUrl}${player.photo}`}
-              alt={player.photo_url}
+              src={player.photo_url}
+              alt={player.ima}
               sx={{ width: 64, height: 64, mr: 2, borderRadius: 2 }}
               variant="rounded"
             />

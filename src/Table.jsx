@@ -32,8 +32,8 @@ const ScoreboardTable = ({ teams }) => {
               <TableCell>{index + 1}</TableCell>
               <TableCell>
                 <Box display="flex" alignItems="center">
-                  {team.club.logo && (
-                    <Avatar src={team.club.logo} alt={team.club.name} sx={{ mr: 1 }} />
+                  {team.club.logo_url && (
+                    <Avatar src={team.club.logo_url} alt={team.club.name} sx={{ mr: 1 }} />
                   )}
                   <Typography variant="body1">
                     {team.club.name}

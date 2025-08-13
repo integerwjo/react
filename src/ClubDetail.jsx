@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
-  Grid,
   Avatar,
   Card,
   CardContent,
@@ -17,9 +16,6 @@ import {
 import { useParams, useNavigate } from 'react-router-dom';
 
 const apiUrl = import.meta.env.VITE_API_URL;
-const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
-const mediaUrl = import.meta.env.VITE_MEDIA_URL;
-
 
 const ClubDetailsCard = () => {
   const { id } = useParams();
@@ -35,50 +31,34 @@ const ClubDetailsCard = () => {
 
   if (!team) return <Typography align="center">Loading...</Typography>;
 
-  const { name, logo, coach, players = [], top_scorer } = team;
-
   return (
     <Box maxWidth={1000} margin="auto">
       {/* Club Header */}
-      <Card
-        sx={{
-          borderRadius: 1,
-          border: '1px solid #e0e0e0',
-          boxShadow: 'none',
-          backgroundColor: '#fafafa',
-          mb: 4,
-        }}
-      >
+      <Card sx={{ borderRadius: 1, border: '1px solid #e0e0e0', backgroundColor: '#fafafa', mb: 4 }}>
         <CardContent>
           <Box display="flex" alignItems="center" gap={3} mb={3} flexWrap="wrap">
             <Avatar
-              src={photo_url}
-              alt={name}
-              sx={{
-                width: 80,
-                height: 80,
-                border: '2px solid #e0e0e0',
-                backgroundColor: '#fff',
-              }}
+              src={team.logo_url}
+              alt={team.name}
+              sx={{ width: 80, height: 80, border: '2px solid #e0e0e0', backgroundColor: '#fff' }}
             />
             <Typography variant="h5" fontWeight={700}>
-              {name}
+              {team.name}
             </Typography>
           </Box>
-
           <Typography variant="subtitle2" color="text.secondary">
             Coach
           </Typography>
           <Typography variant="body1" fontWeight={500}>
-            {coach || 'N/A'}
+            {team.coach || 'N/A'}
           </Typography>
         </CardContent>
       </Card>
 
       {/* Top Scorer Card */}
-      {top_scorer && (
+      {team.top_scorer && (
         <Card
-          onClick={() => navigate(`/players/${top_scorer.id}`)}
+          onClick={() => navigate(`/players/${team.top_scorer.id}`)}
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -89,25 +69,19 @@ const ClubDetailsCard = () => {
             backgroundColor: '#fafafa',
             cursor: 'pointer',
             transition: 'transform 0.2s',
-        
           }}
         >
           <Avatar
-            src={
-              top_scorer.photo_url?.startsWith('http')
-                ? top_scorer.photo_url
-                : `${top_scorer.photo_url}`
-            }
-            alt={top_scorer.name}
+            src={team.top_scorer.photo_url}
+            alt={team.top_scorer.name}
             sx={{ width: 64, height: 64, mr: 2 }}
           />
-    
-          <CardContent sx={{ p: 0 }} >
+          <CardContent sx={{ p: 0 }}>
             <Typography variant="subtitle2" color="text.secondary">
               Top Scorer
             </Typography>
             <Typography variant="h6" fontWeight={600}>
-              {top_scorer.name}
+              {team.top_scorer.name}
             </Typography>
             <Typography
               variant="body2"
@@ -122,21 +96,14 @@ const ClubDetailsCard = () => {
                 fontWeight: 500,
               }}
             >
-              {top_scorer.stat} goals
+              {team.top_scorer.stat} goals
             </Typography>
           </CardContent>
         </Card>
       )}
 
       {/* Squad List */}
-      <Card
-        sx={{
-          borderRadius: 1,
-          border: '1px solid #e0e0e0',
-          boxShadow: 'none',
-          backgroundColor: '#fafafa',
-        }}
-      >
+      <Card sx={{ borderRadius: 1, border: '1px solid #e0e0e0', backgroundColor: '#fafafa' }}>
         <CardContent>
           <Typography variant="h6" fontWeight={600} mb={2}>
             Squad
@@ -151,7 +118,7 @@ const ClubDetailsCard = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {players.map((player, index) => (
+                {team.players.map((player, index) => (
                   <TableRow
                     key={player.id || index}
                     hover
