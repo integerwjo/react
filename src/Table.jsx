@@ -14,7 +14,7 @@ const ScoreboardTable = ({ teams }) => {
       <Table sx={{ minWidth: isMobile ? 650 : 900 }} aria-label="league table">
         <TableHead>
           <TableRow sx={{ backgroundColor: '#e8f0fe' }}>
-            <TableCell><strong>#</strong></TableCell>
+            <TableCell><strong>Pos</strong></TableCell>
             <TableCell><strong>Team</strong></TableCell>
             <TableCell align="center"><strong>MP</strong></TableCell>
             <TableCell align="center"><strong>W</strong></TableCell>

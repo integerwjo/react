@@ -15,6 +15,15 @@ const MatchResults = ({ results }) => {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 2 }}>
+            <Typography
+        variant="h5"
+        fontWeight={800}
+        mb={3}
+        textAlign="center"
+        sx={{ letterSpacing: 1 }}
+      >
+       Match Results
+      </Typography>
       <Grid container spacing={2}>
         {results.map((match, i) => (
           <Grid item xs={12} sm={12} md={6} key={i}>

@@ -74,8 +74,14 @@ export default function Footer() {
           align="center"
           sx={{ fontSize: 14 }}
         >
-          &copy; {new Date().getFullYear()} wanderajeff. All rights reserved.
+          &copy; {new Date().getFullYear()} endebess-football-league. All rights reserved.
         </Typography>
+        <Typography
+          variant="body2"
+          color="rgba(255,255,255,0.7)"
+          align="center"
+          sx={{ fontSize: 14 }}>
+            WanderaJeff</Typography>
       </Container>
     </Box>
   );

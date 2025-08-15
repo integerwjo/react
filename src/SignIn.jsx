@@ -101,7 +101,7 @@ export default function SignIn() {
           }}
         >
           <Stack direction="column" alignItems="center" spacing={2} mb={4}>
-            <Avatar sx={{ bgcolor: '#12414eff', width: 56, height: 56 }}>
+            <Avatar sx={{ bgcolor: '#1f2937', width: 56, height: 56 }}>
               <LockOutlinedIcon fontSize="large" />
             </Avatar>
             <Typography component="h1" variant="h5" fontWeight={600}>
@@ -173,7 +173,7 @@ export default function SignIn() {
               fullWidth
               variant="contained"
               size="large"
-              sx={{ mt: 3, mb: 2, borderRadius: 1, fontWeight: 600, backgroundColor: '#12414eff' }}
+              sx={{ mt: 3, mb: 2, borderRadius: 1, fontWeight: 600, backgroundColor: '#1f2937' }}
               disabled={loading}
               startIcon={loading && <CircularProgress size={20} />}
             >

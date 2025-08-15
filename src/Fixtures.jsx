@@ -6,11 +6,23 @@ import {
   Grid,
   Divider,
   Box,
-  Avatar
+  Avatar,
+  Container,
 } from '@mui/material';
 
 const MatchFixtures = ({ fixtures }) => {
   return (
+    <Container>
+      <Typography
+        variant="h5"
+        fontWeight={800}
+        mt={3}
+        mb={3}
+        textAlign="center"
+        sx={{ letterSpacing: 1 }}
+      >
+        Fixtures
+      </Typography>
     <Grid container spacing={2} sx={{ width: '100%', m: 0 }}>
       {fixtures.map((match, index) => (
         <Grid item xs={12} sm={12} md={6} key={index}>
@@ -93,6 +105,7 @@ const MatchFixtures = ({ fixtures }) => {
         </Grid>
       ))}
     </Grid>
+    </Container>
   );
 };
 

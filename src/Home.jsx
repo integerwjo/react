@@ -234,7 +234,7 @@ function Home() {
   )}
 </Section>
     {/* Top Teams Fixtures Section */}
-        <Section title="Upcoming Fixtures">
+        <Section title="Upcoming Fixtures for top teams" variant="h6">
       {loadingFixtures ? (
         <Typography>Loading fixtures...</Typography>
       ) : fixtures.length === 0 ? (

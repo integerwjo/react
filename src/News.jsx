@@ -21,7 +21,7 @@ const News = ({ articles }) => {
   return (
     <Container maxWidth="md" sx={{ py: 6 }}>
       <Typography
-        variant="h4"
+        variant="h5"
         fontWeight={800}
         mb={5}
         textAlign="center"
