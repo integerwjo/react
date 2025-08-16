@@ -100,7 +100,7 @@ const NavBar = () => {
     >
       <Box>
         <Box display="flex" alignItems="center" gap={1} mb={2}>
-          <Avatar sx={{ bgcolor: 'primary.main' }}>
+          <Avatar sx={{ backgroundColor: '#1f2937', }}>
             <SportsSoccerIcon />
           </Avatar>
           <Typography variant="h6" fontWeight={600}>
@@ -121,7 +121,7 @@ const NavBar = () => {
                     my: 0.5,
                     transition: '0.15s',
                     '&:hover': {
-                      backgroundColor: '#12414eff',
+                      backgroundColor: '#f9f9f9',
                       color: 'white',
                     },
                     textDecoration: 'none',
@@ -154,8 +154,8 @@ const NavBar = () => {
                     my: 0.5,
                     transition: '0.15s',
                     '&:hover': {
-                      backgroundColor: '#12414eff',
-                      color: 'white',
+                      backgroundColor: '#f9f9f9',
+                      color: 'black',
                     },
                     textDecoration: 'none',
                     color: 'inherit',

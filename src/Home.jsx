@@ -116,9 +116,7 @@ function Home() {
           <Typography variant="h3" fontWeight={700} gutterBottom>
             Endebess Football League
           </Typography>
-          <Typography variant="h6" color="rgba(255,255,255,0.85)">
-            <HeroTyping />
-          </Typography>
+            <HeroTyping/>
         </Container>
       </Box>
 
@@ -139,6 +137,7 @@ function Home() {
                     sx={{
                       height: '100%',
                       display: 'flex',
+                      maxWidth:'360',
                       flexDirection: 'column',
                       border: '1px solid #ddd',
                       borderRadius: 1,

@@ -159,7 +159,7 @@ export default function SignUpForm() {
             fullWidth
             variant="contained"
             size="large"
-            sx={{ mt: 3, backgroundColor: '#12414eff' }}
+            sx={{ mt: 3, backgroundColor: '#1f2937' }}
             disabled={loading}
             startIcon={loading && <CircularProgress size={20} />}
           >
