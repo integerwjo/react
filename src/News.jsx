@@ -21,14 +21,21 @@ const News = ({ articles }) => {
   return (
     <Container maxWidth="md" sx={{ py: 6 }}>
       <Typography
-        variant="h5"
-        fontWeight={800}
-        mb={5}
-        textAlign="center"
-        sx={{ letterSpacing: 1 }}
-      >
-        Latest Sports News
-      </Typography>
+            variant="h5"
+            fontWeight={700}
+            textAlign="center"
+            sx={{
+              background: "linear-gradient(90deg, #1f2937, #6b7280)", // dark gray to light gray
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              letterSpacing: 1,
+              mb: 5,
+            }}
+          >
+      Latest Sports News
+    </Typography>
+
+
 
       <Stack spacing={4} alignItems="center">
         {articles.map((article) => (

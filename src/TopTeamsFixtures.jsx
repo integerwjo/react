@@ -17,13 +17,12 @@ const TopTeamFixtures = ({ fixtures }) => {
           <Card
             variant="outlined"
             sx={{
-              borderRadius: 3,
+              borderRadius: 1,
               borderColor: '#e5e7eb',
-              boxShadow: 1,
               backgroundColor: 'background.paper',
               transition: 'box-shadow 0.3s ease',
               '&:hover': {
-                boxShadow: 4,
+                boxShadow: 1,
               },
             }}
           >
