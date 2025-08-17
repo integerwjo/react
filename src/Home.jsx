@@ -124,57 +124,64 @@ function Home() {
       <Container sx={{ py: 6 }}>
         {/* News Section */}
         <Section title="Latest News">
-          {loadingNews ? (
-            <Typography>Loading articles...</Typography>
-          ) : articles.length === 0 ? (
-            <Typography>No articles available.</Typography>
-          ) : (
-            <Grid container spacing={4}>
-              {articles.map(article => (
-                <Grid item xs={12} sm={6} md={4} key={article.id}>
-                  <Card
-                  elevation={0}
-                    sx={{
-                      height: '100%',
-                      display: 'flex',
-                      maxWidth:'360',
-                      flexDirection: 'column',
-                      border: '1px solid #ddd',
-                      borderRadius: 1,
-                      transition: '0.2s',
-                      '&:hover': {
-                        borderColor: '#ddddd',
-                      },
-                    }}
-                    onClick={() => handleCardClick(article.id)}
-                  >
-                    <CardActionArea sx={{ height: '100%' }}>
-                      {article.image_url && (
-                        <CardMedia
-                          component="img"
-                          image={article.image_url}
-                          alt={article.title}
-                          height="180"
-                        />
-                      )}
-                      <CardContent>
-                        <Typography variant="caption" color="text.secondary">
-                          {new Date(article.date).toLocaleDateString()}
-                        </Typography>
-                        <Typography variant="h6" fontWeight={600} mt={1}>
-                          {article.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" mt={1}>
-                          {article.summary}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          )}
-        </Section>
+  {loadingNews ? (
+    <Typography>Loading articles...</Typography>
+  ) : articles.length === 0 ? (
+    <Typography>No articles available.</Typography>
+  ) : (
+    <Grid container spacing={4}>
+      {articles.map(article => (
+        <Grid item xs={12} sm={6} md={4} key={article.id}>
+          <Card
+            elevation={0}
+            sx={{
+              width: 525, // 1.75x of 300
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              border: '1px solid #ddd',
+              borderRadius: 1,
+              transition: '0.2s',
+              '&:hover': {
+                borderColor: '#e6e5e5ff',
+              },
+            }}
+          >
+            <CardActionArea
+              sx={{ height: '100%' }}
+              onClick={() => handleCardClick(article.id)}
+            >
+              {article.image_url && (
+                <CardMedia
+                  component="img"
+                  image={article.image_url}
+                  alt={article.title}
+                  height="220" // Slightly increased for better proportion
+                />
+              )}
+              <CardContent>
+                <Typography variant="caption" color="text.secondary">
+                  {new Date(article.date).toLocaleDateString()}
+                </Typography>
+                <Typography variant="h6" fontWeight={600} mt={1}>
+                  {article.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" mt={1}>
+                  {article.summary.length > 100
+                    ? `${article.summary.slice(0, 100)}...`
+                    : article.summary}{' '}
+                  <a href="/news" style={{ color: '#1976d2', textDecoration: 'none' }}>
+                    Read more
+                  </a>
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
+  )}
+</Section>
 
         {/* Top Scorers Section */}
 <Section title="Top Scorers">
