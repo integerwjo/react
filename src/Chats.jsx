@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import dayjs from "dayjs";
+import { Avatar } from "@mui/material";
 
 // Decode JWT without external lib
 const parseJwt = (token) => {
@@ -46,6 +47,18 @@ const getNewAccessToken = async (refreshToken) => {
     console.error("Token refresh failed:", err);
   }
   return null;
+};
+
+const getAvatarColor = (char) => {
+  const colors = [
+    "#e57373", "#81c784", "#64b5f6", "#ffd54f", "#4db6ac",
+    "#ba68c8", "#f06292", "#7986cb", "#a1887f", "#90a4ae",
+    "#ff8a65", "#aed581", "#9575cd", "#4fc3f7", "#ffb74d",
+    "#4dd0e1", "#f44336", "#7986cb", "#ffca28", "#a1887f",
+    "#ce93d8", "#81d4fa", "#e0e0e0", "#b0bec5", "#d4e157", "#f48fb1"
+  ];
+  const index = char.toUpperCase().charCodeAt(0) - 65; // A = 65
+  return colors[index % colors.length];
 };
 
 const ChatScreen = () => {
