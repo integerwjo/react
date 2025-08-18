@@ -123,19 +123,21 @@ function Home() {
       {/* Content */}
       <Container sx={{ py: 6 }}>
         {/* News Section */}
-        <Section title="Latest News">
+   <Section title="Latest News">
   {loadingNews ? (
     <Typography>Loading articles...</Typography>
   ) : articles.length === 0 ? (
     <Typography>No articles available.</Typography>
   ) : (
-    <Grid container spacing={4}>
+    <Grid container spacing={4} >
       {articles.map(article => (
         <Grid item xs={12} sm={6} md={4} key={article.id}>
           <Card
             elevation={0}
             sx={{
-              width: 525, // 1.75x of 300
+              width: '100%',
+              maxWidth: 360,
+              margin: '0 auto',
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
@@ -156,7 +158,7 @@ function Home() {
                   component="img"
                   image={article.image_url}
                   alt={article.title}
-                  height="220" // Slightly increased for better proportion
+                  height="220"
                 />
               )}
               <CardContent>
@@ -183,35 +185,45 @@ function Home() {
   )}
 </Section>
 
-        {/* Top Scorers Section */}
 <Section title="Top Scorers">
   {loadingScorers ? (
     <Typography>Loading top scorers...</Typography>
   ) : topScorers.length === 0 ? (
     <Typography>No top scorers data.</Typography>
   ) : (
-    <Grid container spacing={3}>
+    <Grid container spacing={2}>
       {topScorers.map((player) => (
-        <Grid item xs={12} sm={6} md={4} key={player.player_id}>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={4}
+          key={player.player_id}
+          sx={{ px: 3 }} // horizontal spacing
+        >
           <Card
             elevation={0}
             sx={{
               display: 'flex',
               alignItems: 'center',
               p: 2,
-              borderRadius: 1,
+              width: '100%',
+              maxWidth: '100%',
               cursor: 'pointer',
-              border: '1px solid #ddd',
-              transition: 'transform 0.2s ease',
+              transition: 'transform 0.3s ease',
               '&:hover': {
-                border: '1px solid #1f2937'
+                transform: 'scale(1.01)',
               },
+              border: 'none',
+              borderRadius: 0,
+              boxShadow: 'none',
+              border: '1px solid #ddd',
             }}
           >
             <Avatar
               src={player.photo_url}
               alt={player.ima}
-              sx={{ width: 64, height: 64, mr: 2, borderRadius: 2 }}
+              sx={{ width: 64, height: 64, mr: 2 }}
               variant="rounded"
             />
             <CardContent sx={{ flex: '1 1 auto', p: 0 }}>
@@ -223,10 +235,7 @@ function Home() {
               </Typography>
               <Box mt={1} display="flex" gap={2}>
                 <Typography variant="body2" color="text.primary">
-                  <strong>{player.goals}</strong> ⚽ Goals
-                </Typography>
-                <Typography variant="body2" color="text.primary">
-                  <strong>{player.appearances}</strong> Apps
+                  <strong>{player.goals}</strong> Goals
                 </Typography>
                 <Typography variant="body2" color="text.primary">
                   <strong>{player.assists}</strong> Assists
@@ -239,6 +248,8 @@ function Home() {
     </Grid>
   )}
 </Section>
+
+
     {/* Top Teams Fixtures Section */}
         <Section title="Upcoming Fixtures for top teams" variant="h6">
       {loadingFixtures ? (

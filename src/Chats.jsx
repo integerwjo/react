@@ -50,13 +50,14 @@ const getNewAccessToken = async (refreshToken) => {
 };
 
 const getAvatarColor = (char) => {
-  const colors = [
-    "#e57373", "#81c784", "#64b5f6", "#ffd54f", "#4db6ac",
-    "#ba68c8", "#f06292", "#7986cb", "#a1887f", "#90a4ae",
-    "#ff8a65", "#aed581", "#9575cd", "#4fc3f7", "#ffb74d",
-    "#4dd0e1", "#f44336", "#7986cb", "#ffca28", "#a1887f",
-    "#ce93d8", "#81d4fa", "#e0e0e0", "#b0bec5", "#d4e157", "#f48fb1"
-  ];
+const colors = [
+  "#FF1744", "#00E676", "#2979FF", "#FFD600", "#1DE9B6",
+  "#D500F9", "#F50057", "#3D5AFE", "#8D6E63", "#00ACC1",
+  "#FF6D00", "#76FF03", "#651FFF", "#00B0FF", "#FF9100",
+  "#00B8D4", "#FF1744", "#536DFE", "#FFC400", "#5D4037",
+  "#EA80FC", "#40C4FF", "#EEEEEE", "#90A4AE", "#C6FF00", "#FF4081"
+];
+
   const index = char.toUpperCase().charCodeAt(0) - 65; // A = 65
   return colors[index % colors.length];
 };

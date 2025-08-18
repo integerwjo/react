@@ -11,18 +11,19 @@ import {
 
 const TopTeamFixtures = ({ fixtures }) => {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={2}>
       {fixtures.map((fixture, index) => (
-        <Grid item xs={12} sm={12} md={6} key={index}>
+        <Grid item xs={12} md={6} key={index}>
           <Card
             variant="outlined"
             sx={{
-              borderRadius: 1,
-              borderColor: '#e5e7eb',
+              border: '1px solid #e5e7eb',
+              borderRadius: 0,
+              boxShadow: 'none',
               backgroundColor: 'background.paper',
-              transition: 'box-shadow 0.3s ease',
+              transition: 'transform 0.3s ease',
               '&:hover': {
-                boxShadow: 1,
+                transform: 'scale(1.01)',
               },
             }}
           >
@@ -30,10 +31,10 @@ const TopTeamFixtures = ({ fixtures }) => {
               {/* Teams Row */}
               <Box
                 display="flex"
+                flexWrap="wrap"
                 justifyContent="space-between"
                 alignItems="center"
-                flexWrap="wrap"
-                sx={{ gap: 2 }}
+                gap={1}
               >
                 {/* Team A */}
                 <Box
@@ -41,6 +42,8 @@ const TopTeamFixtures = ({ fixtures }) => {
                   alignItems="center"
                   flex={1}
                   justifyContent="flex-end"
+                  minWidth={0}
+                  sx={{ overflow: 'hidden' }}
                 >
                   <Avatar
                     src={fixture.team_a?.logo_url}
@@ -48,10 +51,11 @@ const TopTeamFixtures = ({ fixtures }) => {
                     sx={{
                       width: 48,
                       height: 48,
-                      mr: 1.5,
+                      mr: 1,
                       bgcolor: '#e0e7ff',
                       color: '#1e3a8a',
                       fontWeight: 700,
+                      flexShrink: 0,
                     }}
                   >
                     {fixture.team_a_name?.charAt(0).toUpperCase()}
@@ -59,7 +63,7 @@ const TopTeamFixtures = ({ fixtures }) => {
                   <Typography
                     variant="subtitle1"
                     fontWeight={600}
-                    sx={{ whiteSpace: 'nowrap' }}
+                    noWrap
                   >
                     {fixture.team_a_name}
                   </Typography>
@@ -70,7 +74,7 @@ const TopTeamFixtures = ({ fixtures }) => {
                   variant="h6"
                   fontWeight={700}
                   color="primary"
-                  sx={{ mx: 2 }}
+                  sx={{ mx: 1 }}
                 >
                   VS
                 </Typography>
@@ -81,11 +85,14 @@ const TopTeamFixtures = ({ fixtures }) => {
                   alignItems="center"
                   flex={1}
                   justifyContent="flex-start"
+                  minWidth={0}
+                  sx={{ overflow: 'hidden' }}
                 >
                   <Typography
                     variant="subtitle1"
                     fontWeight={600}
-                    sx={{ mr: 1.5, whiteSpace: 'nowrap' }}
+                    noWrap
+                    sx={{ mr: 1 }}
                   >
                     {fixture.team_b_name}
                   </Typography>
@@ -98,6 +105,7 @@ const TopTeamFixtures = ({ fixtures }) => {
                       bgcolor: '#e0e7ff',
                       color: '#1e3a8a',
                       fontWeight: 700,
+                      flexShrink: 0,
                     }}
                   >
                     {fixture.team_b_name?.charAt(0).toUpperCase()}
@@ -131,4 +139,3 @@ const TopTeamFixtures = ({ fixtures }) => {
 };
 
 export default TopTeamFixtures;
-

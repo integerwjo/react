@@ -39,55 +39,55 @@ const News = ({ articles }) => {
 
       <Stack spacing={4} alignItems="center">
         {articles.map((article) => (
-          <Card
-            key={article.id}
-            onClick={() => handleCardClick(article.id)}
-            sx={{
-              width: '100%',
-              maxWidth: 550,
-              borderRadius: 1,
-              overflow: 'hidden',
-              boxShadow: '0 4px 8px rgba(0,0,0,0.08)',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              cursor: 'pointer',
-            }}
-          >
-            <CardActionArea>
-              {article.image_url && (
-                <CardMedia
-                  component="img"
-                  height="260"
-                  image={article.image_url}
-                  alt={article.title}
-                  sx={{
-                    objectFit: 'cover',
-                  }}
-                />
-              )}
-              <CardContent sx={{ p: 3 }}>
-                <Typography
-                  variant="caption"
-                  sx={{ color: 'text.secondary', fontSize: '0.8rem' }}
-                >
-                  {article.date}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  fontWeight={700}
-                  mt={1}
-                  sx={{ lineHeight: 1.3 }}
-                >
-                  {article.title}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ color: 'text.secondary', mt: 1 }}
-                >
-                  {article.summary}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+       <Card
+  key={article.id}
+  onClick={() => handleCardClick(article.id)}
+  sx={{
+    width: '100%',
+    maxWidth: 550,
+    borderRadius: 1,
+    overflow: 'hidden',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.06)',
+    cursor: 'pointer',
+    textDecoration: 'none',
+    '&:hover': {
+      boxShadow: '0 6px 12px rgba(0,0,0,0.12)',
+    },
+  }}
+>
+  {article.image_url && (
+    <CardMedia
+      component="img"
+      height="260"
+      image={article.image_url}
+      alt={article.title}
+      sx={{ objectFit: 'cover' }}
+    />
+  )}
+  <CardContent sx={{ p: 3 }}>
+    <Typography
+      variant="caption"
+      sx={{ color: 'text.secondary', fontSize: '0.8rem' }}
+    >
+      {article.date}
+    </Typography>
+    <Typography
+      variant="h6"
+      fontWeight={700}
+      mt={1}
+      sx={{ lineHeight: 1.3 }}
+    >
+      {article.title}
+    </Typography>
+    <Typography
+      variant="body2"
+      sx={{ color: 'text.secondary', mt: 1 }}
+    >
+      {article.summary}
+    </Typography>
+  </CardContent>
+</Card>
+
         ))}
       </Stack>
     </Container>
