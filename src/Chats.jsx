@@ -172,32 +172,50 @@ const ChatScreen = () => {
           backgroundColor: "#f9f9f9",
         }}
       >
-        {messages.map((m, i) => (
-          <Paper
-            key={i}
-            elevation={0}
-            sx={{
-              p: 1,
-              mb: 4.25,
-              borderRadius: 1.2,
-              border: "1px solid rgba(0,0,0,0.06)",
-              backgroundColor: "#1f2937",
-            }}
-          >
-            <Typography variant="subtitle2" sx={{ color: "white", fontWeight: 600 }}>
-              {m.user ?? "Anonymous"}
-            </Typography>
-            <Typography variant="body1" sx={{ mt: 0.4, color: "white" }}>
-              {m.message}
-            </Typography>
-            <Typography
-              variant="caption"
-              sx={{ display: "block", textAlign: "right", color: "#f9f9f9" }}
-            >
-              {m.time}
-            </Typography>
-          </Paper>
-        ))}
+        {messages.map((m, i) => {
+  const firstLetter = m.user?.charAt(0)?.toUpperCase() || "?";
+  const avatarColor = getAvatarColor(firstLetter);
+
+  return (
+    <Box key={i} sx={{ display: "flex", alignItems: "flex-start", gap: 1, mb: 4 }}>
+      <Avatar
+        sx={{
+          bgcolor: avatarColor,
+          fontWeight: "bold",
+          fontSize: "1rem",
+          width: 32,
+          height: 32,
+        }}
+      >
+        {firstLetter}
+      </Avatar>
+
+      <Paper
+        elevation={0}
+        sx={{
+          p: 1,
+          borderRadius: 1.2,
+          border: "1px solid rgba(0,0,0,0.06)",
+          backgroundColor: "#1f2937",
+          flexGrow: 1,
+        }}
+      >
+        <Typography variant="subtitle2" sx={{ color: "white", fontWeight: 600 }}>
+          {m.user ?? "Anonymous"}
+        </Typography>
+        <Typography variant="body1" sx={{ mt: 0.4, color: "white" }}>
+          {m.message}
+        </Typography>
+        <Typography
+          variant="caption"
+          sx={{ display: "block", textAlign: "right", color: "#f9f9f9" }}
+        >
+          {m.time}
+        </Typography>
+      </Paper>
+    </Box>
+  );
+})}
         <div ref={messagesEndRef} />
       </Box>
 
