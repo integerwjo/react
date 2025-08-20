@@ -1,158 +1,150 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
-  Card,
-  CardContent,
-  Avatar,
-  Typography,
-  Grid,
   Box,
-  Divider,
+  Typography,
+  Avatar,
   Stack,
   Chip,
-} from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
+  Divider,
+  Grid,
+  useMediaQuery,
+} from "@mui/material";
+import { useParams } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
 
 const PlayerDetailsCard = () => {
-const apiUrl = import.meta.env.VITE_API_URL;
-const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const { id } = useParams();
+  const [player, setPlayer] = useState(null);
 
-  const { id } = useParams(); 
-  const [player, setPlayer] = useState()
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     fetch(`${apiUrl}/players/${id}/`)
-      .then(res => res.json())
-      .then(data => setPlayer(data))
-      .catch(err => console.error('Failed to fetch club:', err));
+      .then((res) => res.json())
+      .then((data) => setPlayer(data))
+      .catch((err) => console.error("Failed to fetch player:", err));
   }, [id]);
 
   if (!player) return null;
 
   const {
-            name,
-            position,
-            number,
-            age,
-            height,
-            nationality,
-            photo_url,
-            foot,
-            club,
-            club_name,
-            stats,
+    name,
+    position,
+    number,
+    age,
+    height,
+    nationality,
+    photo_url,
+    foot,
+    club_name,
+    stats,
   } = player;
 
   return (
-    <Card
+    <Box
       sx={{
-        border: '1px solid #e0e0e0',
-        borderRadius: 4,
-        boxShadow: 'none',
         maxWidth: 700,
-        mx: 'auto',
-        backgroundColor: '#fefefe',
-        p: 5, // generous padding
+        mx: "auto",
+        px: { xs: 3, sm: 5 },
+        py: { xs: 4, sm: 6 },
+        bgcolor: theme.palette.mode === "dark" ? "#121212" : "#fafafa",
+        borderRadius: 3,
+        textAlign: "center",
       }}
     >
-      <CardContent>
-        <Grid container spacing={8} alignItems="center">
-          {/* Avatar */}
-          <Grid item xs={12} sm={4}>
-            <Avatar
-              src={photo_url}
-              alt={name}
-              sx={{
-                width: 160,
-                height: 160,
-                mx: 'auto',
-                border: '1px solid #1060ffff',
-              }}
-            />
-          </Grid>
+      {/* Avatar */}
+      <Avatar
+        src={photo_url}
+        alt={name}
+        sx={{
+          width: 160,
+          height: 160,
+          mx: "auto",
+          mb: 2,
+        }}
+      />
 
-          <Grid item xs={12} sm={8}>
-            <Typography variant="h5" fontWeight={700} gutterBottom>
-              {name}
+      {/* Player Info */}
+      <Typography variant="h5" fontWeight={700} gutterBottom>
+        {name}
+      </Typography>
+
+      <Stack
+        direction="row"
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
+        mb={3}
+        flexWrap="wrap"
+      >
+        <Chip
+          label={position}
+          sx={{
+            bgcolor: theme.palette.primary.main,
+            color: "white",
+            fontWeight: 600,
+          }}
+        />
+        {foot && (
+          <Chip
+            label={`${foot}-footed`}
+            sx={{
+              bgcolor: theme.palette.mode === "dark" ? "#333" : "#eee",
+              fontWeight: 500,
+            }}
+          />
+        )}
+      </Stack>
+
+      {/* Player Details */}
+      <Grid container spacing={4} justifyContent="center" mb={3}>
+        {[
+          { label: "Club", value: club_name },
+          { label: "Number", value: number },
+          { label: "Age", value: age },
+          { label: "Height", value: height ? `${height} cm` : "—" },
+        ].map((item, idx) => (
+          <Grid item xs={6} sm={3} key={idx}>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              {item.label}
             </Typography>
-
-            <Stack direction="row" spacing={3} mb={3}>
-              <Chip label={position} sx={{backgroundColor:'#12414eff',color:'white'}} size="medium" />
-              {foot && <Chip label={`${foot}-footed`} variant="outlined" size="medium" />}
-            </Stack>
-
-            <Stack spacing={1.5}>
-              <Typography variant="body1" color="text.secondary">
-                Club: <strong>{club_name ?? '—'}</strong>
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                Jersey Number: <strong>{number ?? '—'}</strong>
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                Age: <strong>{age ?? '—'}</strong> years
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                Height: <strong>{height ?? '—'}</strong> cm
-              </Typography>
-            </Stack>
+            <Typography variant="h6" fontWeight={600}>
+              {item.value ?? "—"}
+            </Typography>
           </Grid>
+        ))}
+      </Grid>
+
+      <Divider sx={{ my: 4 }} />
+
+      {/* Stats */}
+      <Box>
+        <Typography variant="h6" fontWeight={600} gutterBottom>
+          Player Stats
+        </Typography>
+
+        <Grid container spacing={4} justifyContent="center">
+          {[
+            { label: "Goals", value: stats.goals },
+            { label: "Assists", value: stats.assists },
+            { label: "Yellow Cards", value: stats.yellow_cards },
+            { label: "Red Cards", value: stats.red_cards },
+          ].map((item, idx) => (
+            <Grid item xs={6} sm={3} key={idx}>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                {item.label}
+              </Typography>
+              <Typography variant="h5" fontWeight={700} color="primary">
+                {item.value ?? "—"}
+              </Typography>
+            </Grid>
+          ))}
         </Grid>
-
-        {/* Divider */}
-        <Box my={6}>
-          <Divider />
-        </Box>
-
-        {/* Player Stats Section */}
-        <Box>
-          <Typography variant="h5" fontWeight={600} gutterBottom>
-            Player Stats
-          </Typography>
-
-          <Grid container spacing={6}>
-
-            <Grid item xs={6} sm={3}>
-              <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                Goals
-              </Typography>
-              <Typography variant="h5" fontWeight={700}>
-                {stats.goals ?? '—'}
-              </Typography>
-            </Grid>
-
-            <Grid item xs={6} sm={3}>
-              <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                Assists
-              </Typography>
-              <Typography variant="h5" fontWeight={700}>
-                {stats.assists ?? '—'}
-              </Typography>
-            </Grid>
-
-            <Grid item xs={6} sm={3}>
-              <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                Yellow Cards
-              </Typography>
-              <Typography variant="h5" fontWeight={700}>
-                {stats.yellow_cards ?? '—'}
-              </Typography>
-            </Grid>
-
-            {/* Red Cards aligned without extra margin */}
-            <Grid item xs={6} sm={3}>
-              <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                Red Cards
-              </Typography>
-              <Typography variant="h5" fontWeight={700}>
-                {stats.red_cards ?? '—'}
-              </Typography>
-            </Grid>
-          </Grid>
-        </Box>
-      </CardContent>
-    </Card>
+      </Box>
+    </Box>
   );
 };
 
 export default PlayerDetailsCard;
-
-

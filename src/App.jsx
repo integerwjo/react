@@ -10,15 +10,13 @@ import Clubs from './Clubs.jsx'
 import MatchResults from "./Results.jsx"; // Assuming you want to use MatchResults in the app
 import ScoreboardTable from "./Table.jsx";
 import ClubDetailsCard from "./ClubDetail.jsx";
-import ManCityLogo from './assets/man city.jpg'; // Example logo import
 import PlayerDetailsCard from "./PlayerDetails.jsx"; // Importing PlayerDetailsCard
-import kdb from './assets/kdb.jpeg'; // Example player photo import
 import SignIn from "./SignIn.jsx";
 import SignUpForm from "./SignUp.jsx";
 import News from "./News.jsx"; // Importing News component
 import ChatScreen from "./Chats.jsx"; // Importing Chat component
 import ChatRoom from "./ChatRoom.jsx"; // Importing ChatRoom component
-
+import UserProfile from './Profile.jsx'
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
@@ -90,6 +88,7 @@ const ChatRoomWrapper = () => {
           <Route path="/results" element={<MatchResults results={matchResults} />} />
           <Route path="/clubs" element={<Clubs data={clubs} />} />
           <Route path="/chat" element={<ChatScreen />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
       </Layout>
     </BrowserRouter>
