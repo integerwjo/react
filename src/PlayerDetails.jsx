@@ -109,14 +109,6 @@ const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
           </Typography>
 
           <Grid container spacing={6}>
-            <Grid item xs={6} sm={3}>
-              <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-                Appearances
-              </Typography>
-              <Typography variant="h5" fontWeight={700}>
-                {stats.appearances ?? '—'}
-              </Typography>
-            </Grid>
 
             <Grid item xs={6} sm={3}>
               <Typography variant="subtitle1" color="text.secondary" gutterBottom>

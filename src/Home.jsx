@@ -215,7 +215,7 @@ function Home() {
                 transform: 'scale(1.01)',
               },
               border: 'none',
-              borderRadius: 0,
+              borderRadius: 1,
               boxShadow: 'none',
               border: '1px solid #ddd',
             }}

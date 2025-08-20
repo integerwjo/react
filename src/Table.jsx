@@ -15,7 +15,8 @@ const ScoreboardTable = ({ teams }) => {
         <TableHead>
           <TableRow sx={{ backgroundColor: '#e8f0fe' }}>
             <TableCell><strong>Pos</strong></TableCell>
-            <TableCell><strong>Team</strong></TableCell>
+            <TableCell><strong>Club</strong></TableCell>
+            <TableCell align="center"><strong>Pts</strong></TableCell>
             <TableCell align="center"><strong>MP</strong></TableCell>
             <TableCell align="center"><strong>W</strong></TableCell>
             <TableCell align="center"><strong>D</strong></TableCell>
@@ -23,7 +24,7 @@ const ScoreboardTable = ({ teams }) => {
             {!isMobile && <TableCell align="center"><strong>GF</strong></TableCell>}
             {!isMobile && <TableCell align="center"><strong>GA</strong></TableCell>}
             {!isMobile && <TableCell align="center"><strong>GD</strong></TableCell>}
-            <TableCell align="center"><strong>Pts</strong></TableCell>
+            
           </TableRow>
         </TableHead>
         <TableBody>
@@ -40,6 +41,7 @@ const ScoreboardTable = ({ teams }) => {
                   </Typography>
                 </Box>
               </TableCell>
+              <TableCell align="center">{team.points}</TableCell>
               <TableCell align="center">{team.played}</TableCell>
               <TableCell align="center">{team.wins}</TableCell>
               <TableCell align="center">{team.draws}</TableCell>
@@ -53,7 +55,7 @@ const ScoreboardTable = ({ teams }) => {
               {!isMobile && (
                 <TableCell align="center">{team.goal_difference}</TableCell>
               )}
-              <TableCell align="center">{team.points}</TableCell>
+              
             </TableRow>
           ))}
         </TableBody>

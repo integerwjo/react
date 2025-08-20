@@ -16,7 +16,7 @@ const News = ({ articles }) => {
 
   const handleCardClick = (id) => {
     navigate(`/news/${id}`);
-  };
+  }; 
 
   return (
     <Container maxWidth="md" sx={{ py: 6 }}>

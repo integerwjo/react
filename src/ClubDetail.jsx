@@ -16,6 +16,9 @@ import {
   ButtonBase,
 } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
+import News from './News.jsx'; 
+import MatchFixtures from './Fixtures.jsx';
+import MatchResults from './Results.jsx'; // Assuming you have a MatchResults component
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -67,6 +70,9 @@ const ClubDetailsCard = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [team, setTeam] = useState(null);
+  const [teamContent, setTeamContent] = useState([]);
+  const [teamFixtures, setTeamFixtures] = useState([]);
+  const [teamResults, setTeamResults] = useState([]);
   const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
@@ -76,6 +82,14 @@ const ClubDetailsCard = () => {
       .catch(console.error);
   }, [id]);
 
+  useEffect(() => {
+    fetch(`${apiUrl}/clubs-content/${id}`)
+      .then((res) => res.json())
+      .then(setTeamContent)
+      .catch(console.error);
+  }, [id]);
+
+ 
   if (!team) return <Typography align="center">Loading...</Typography>;
 
   return (
@@ -110,43 +124,36 @@ const ClubDetailsCard = () => {
 
       {/* Squad Tab */}
       {activeTab === 0 && (
-        <Box>
-          <Typography variant="h6" mb={2}>
-            Full Squad
-          </Typography>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead sx={{ backgroundColor: '#1f2937' }}>
-                <TableRow sx={{color:'white'}}>
-                  <TableCell  sx={{ color: 'white' }}>Player</TableCell>
-                  <TableCell  sx={{ color: 'white' }}>Position</TableCell>
-                  <TableCell  sx={{ color: 'white' }}>Number</TableCell>
-                  <TableCell  sx={{ color: 'white' }}>Age</TableCell>
+        <TableContainer >
+          <Table>
+            <TableHead sx={{ backgroundColor: '#f6f3f3ff' }}>
+              <TableRow>
+                <TableCell>Player</TableCell>
+                <TableCell>Position</TableCell>
+                <TableCell>Number</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {team.players.map((player) => (
+                <TableRow
+                  key={player.id}
+                  hover
+                  onClick={() => navigate(`/players/${player.id}`)}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <TableCell>
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <Avatar src={player.photo_url} sx={{ width: 28, height: 28 }} />
+                      {player.name}
+                    </Box>
+                  </TableCell>
+                  <TableCell>{player.position || '-'}</TableCell>
+                  <TableCell>{player.number || '-'}</TableCell>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {team.players.map((player) => (
-                  <TableRow
-                    key={player.id}
-                    hover
-                    onClick={() => navigate(`/players/${player.id}`)}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <TableCell>
-                      <Box display="flex" alignItems="center" gap={1}>
-                        <Avatar src={player.photo_url} sx={{ width: 28, height: 28 }} />
-                        {player.name}
-                      </Box>
-                    </TableCell>
-                    <TableCell>{player.position || '-'}</TableCell>
-                    <TableCell>{player.number || '-'}</TableCell>
-                    <TableCell>{player.age || '-'}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       )}
 
       {/* Stats Tab */}
@@ -172,7 +179,21 @@ const ClubDetailsCard = () => {
       {/* News Tab */}
       {activeTab === 2 && (
         <Box>
-          <Typography variant="body1">News related to the club will appear here.</Typography>
+          <News articles={teamContent.news} />
+        </Box>
+      )}
+
+      {/* Fixtures Tab */}
+      {activeTab === 3 && (
+        <Box>
+          <MatchFixtures fixtures={teamContent.fixtures} />
+        </Box>
+      )}
+
+      {/* Results Tab */}
+      {activeTab === 4 && (
+        <Box>
+          <MatchResults results={teamContent.results} />
         </Box>
       )}
     </Box>
