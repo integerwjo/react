@@ -3,22 +3,18 @@ import {
   Box,
   Typography,
   Avatar,
-  Stack,
-  Chip,
-  Divider,
   Grid,
-  useMediaQuery,
+  Card,
+  CardContent,
+  Divider,
+  Chip,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 
 const PlayerDetailsCard = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const { id } = useParams();
   const [player, setPlayer] = useState(null);
-
-  const theme = useTheme();
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     fetch(`${apiUrl}/players/${id}/`)
@@ -35,7 +31,6 @@ const PlayerDetailsCard = () => {
     number,
     age,
     height,
-    nationality,
     photo_url,
     foot,
     club_name,
@@ -43,107 +38,122 @@ const PlayerDetailsCard = () => {
   } = player;
 
   return (
-    <Box
-      sx={{
-        maxWidth: 700,
-        mx: "auto",
-        px: { xs: 3, sm: 5 },
-        py: { xs: 4, sm: 6 },
-        bgcolor: theme.palette.mode === "dark" ? "#121212" : "#fafafa",
-        borderRadius: 3,
-        textAlign: "center",
-      }}
-    >
-      {/* Avatar */}
-      <Avatar
-        src={photo_url}
-        alt={name}
+    <Card sx={{ maxWidth: 820, mx: "auto", borderRadius: 1 }}>
+      <CardContent
         sx={{
-          width: 160,
-          height: 160,
-          mx: "auto",
-          mb: 2,
+          px: { xs: 3, sm: 5 },
+          py: { xs: 4, sm: 6 },
+          display: "flex",
+          flexDirection: "column",
+          gap: 4, // SECTION GAP — big breathing room between sections
         }}
-      />
-
-      {/* Player Info */}
-      <Typography variant="h5" fontWeight={700} gutterBottom>
-        {name}
-      </Typography>
-
-      <Stack
-        direction="row"
-        spacing={2}
-        justifyContent="center"
-        alignItems="center"
-        mb={3}
-        flexWrap="wrap"
       >
-        <Chip
-          label={position}
+        {/* Top: Avatar + Name */}
+        <Box
           sx={{
-            bgcolor: theme.palette.primary.main,
-            color: "white",
-            fontWeight: 600,
+            textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 2.5, // spacing between avatar, name, chip
           }}
-        />
-        {foot && (
-          <Chip
-            label={`${foot}-footed`}
-            sx={{
-              bgcolor: theme.palette.mode === "dark" ? "#333" : "#eee",
-              fontWeight: 500,
-            }}
+        >
+          <Avatar
+            src={photo_url}
+            alt={name}
+            sx={{ width: 150, height: 150 }}
           />
-        )}
-      </Stack>
+          <Typography variant="h5" fontWeight={800}>
+            {name}
+          </Typography>
+          <Chip label={position} color="primary" size="medium" />
+        </Box>
 
-      {/* Player Details */}
-      <Grid container spacing={4} justifyContent="center" mb={3}>
-        {[
-          { label: "Club", value: club_name },
-          { label: "Number", value: number },
-          { label: "Age", value: age },
-          { label: "Height", value: height ? `${height} cm` : "—" },
-        ].map((item, idx) => (
-          <Grid item xs={6} sm={3} key={idx}>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              {item.label}
-            </Typography>
-            <Typography variant="h6" fontWeight={600}>
-              {item.value ?? "—"}
-            </Typography>
+        <Divider />
+
+        {/* Player Info — two rows (3 per row at sm+). */}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Typography variant="h6" fontWeight={700}>
+            Player Info
+          </Typography>
+
+          <Grid
+            container
+            rowSpacing={3}
+            columnSpacing={3}
+            // This layout becomes 3 columns at sm+, 2 columns on xs.
+          >
+            {[
+              { label: "Club", value: club_name },
+              { label: "Number", value: number },
+              { label: "Age", value: age },
+              { label: "Height", value: height ? `${height} cm` : "—" },
+              { label: "Foot", value: foot || "—" },
+            ].map((item, idx) => (
+              <Grid item xs={6} sm={4} key={idx}>
+                <Box
+                  sx={{
+                    p: 1.5, // inner padding so each tile has air
+                  }}
+                >
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+                    {item.label}
+                  </Typography>
+                  <Typography variant="subtitle1" fontWeight={700}>
+                    {item.value}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+
+            {/* Filler to keep 3 items per row at sm+ (forces a visible second row). */}
+            <Grid
+              item
+              xs={6}
+              sm={4}
+              sx={{ display: { xs: "none", sm: "block" } }}
+            />
           </Grid>
-        ))}
-      </Grid>
+        </Box>
 
-      <Divider sx={{ my: 4 }} />
+        <Divider />
 
-      {/* Stats */}
-      <Box>
-        <Typography variant="h6" fontWeight={600} gutterBottom>
-          Player Stats
-        </Typography>
+        {/* Stats — two rows, two items each with strong spacing */}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <Typography variant="h6" fontWeight={700}>
+            Stats
+          </Typography>
 
-        <Grid container spacing={4} justifyContent="center">
-          {[
-            { label: "Goals", value: stats.goals },
-            { label: "Assists", value: stats.assists },
-            { label: "Yellow Cards", value: stats.yellow_cards },
-            { label: "Red Cards", value: stats.red_cards },
-          ].map((item, idx) => (
-            <Grid item xs={6} sm={3} key={idx}>
-              <Typography variant="body2" color="text.secondary" gutterBottom>
-                {item.label}
-              </Typography>
-              <Typography variant="h5" fontWeight={700} color="primary">
-                {item.value ?? "—"}
-              </Typography>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </Box>
+          <Grid container rowSpacing={3} columnSpacing={3}>
+            {[
+              { label: "Goals", value: stats?.goals },
+              { label: "Assists", value: stats?.assists },
+              { label: "Yellow Cards", value: stats?.yellow_cards },
+              { label: "Red Cards", value: stats?.red_cards },
+            ].map((item, idx) => (
+              <Grid item xs={12} sm={6} key={idx}>
+                <Box
+                  sx={{
+                    p: 2.5, // generous padding for each stat box
+                    borderRadius: 2,
+                    border: "1px solid",
+                    borderColor: "divider",
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
+                    {item.label}
+                  </Typography>
+                  <Typography variant="h4" fontWeight={800}>
+                    {item.value ?? "—"}
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 

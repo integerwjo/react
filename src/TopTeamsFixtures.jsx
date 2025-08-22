@@ -18,7 +18,7 @@ const TopTeamFixtures = ({ fixtures }) => {
             variant="outlined"
             sx={{
               border: '1px solid #e5e7eb',
-              borderRadius: 0,
+              borderRadius: 1,
               boxShadow: 'none',
               backgroundColor: 'background.paper',
               transition: 'transform 0.3s ease',

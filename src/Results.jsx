@@ -34,7 +34,7 @@ const MatchResults = ({ results }) => {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               letterSpacing: 1,
-              mb: 5,
+              mb: 2,
             }}
           >
       Match Results

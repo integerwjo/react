@@ -19,7 +19,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import News from './News.jsx'; 
 import MatchFixtures from './Fixtures.jsx';
 import MatchResults from './Results.jsx'; // Assuming you have a MatchResults component
-
+import TopScorerCard from './TopScorerCard.jsx';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const StatCard = ({ title, players, onPlayerClick }) => (
@@ -159,20 +159,7 @@ const ClubDetailsCard = () => {
       {/* Stats Tab */}
       {activeTab === 1 && (
         <Box>
-          <Typography variant="h6" fontWeight={600} mb={2}>
-            Top Stats
-          </Typography>
-          <Grid container spacing={2}>
-            {team.top_stats?.map((statBlock, idx) => (
-              <Grid item xs={12} sm={6} md={4} key={idx}>
-                <StatCard
-                  title={statBlock.title}
-                  players={statBlock.players}
-                  onPlayerClick={(id) => navigate(`/players/${id}`)}
-                />
-              </Grid>
-            ))}
-          </Grid>
+          <TopScorerCard player={team.top_scorer}/>
         </Box>
       )}
 
@@ -192,7 +179,7 @@ const ClubDetailsCard = () => {
 
       {/* Results Tab */}
       {activeTab === 4 && (
-        <Box>
+        <Box sx={{   }}>
           <MatchResults results={teamContent.results} />
         </Box>
       )}

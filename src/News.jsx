@@ -29,7 +29,7 @@ const News = ({ articles }) => {
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               letterSpacing: 1,
-              mb: 5,
+              mb: 2,
             }}
           >
       Latest Sports News
@@ -41,7 +41,6 @@ const News = ({ articles }) => {
         {articles.map((article) => (
        <Card
   key={article.id}
-  onClick={() => handleCardClick(article.id)}
   sx={{
     width: '100%',
     maxWidth: 550,
