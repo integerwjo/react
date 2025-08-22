@@ -14,12 +14,14 @@ import {
   Paper,
   Grid,
   ButtonBase,
+  CircularProgress, // Import CircularProgress
 } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import News from './News.jsx'; 
 import MatchFixtures from './Fixtures.jsx';
 import MatchResults from './Results.jsx'; // Assuming you have a MatchResults component
 import TopScorerCard from './TopScorerCard.jsx';
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const StatCard = ({ title, players, onPlayerClick }) => (
@@ -71,29 +73,44 @@ const ClubDetailsCard = () => {
   const navigate = useNavigate();
   const [team, setTeam] = useState(null);
   const [teamContent, setTeamContent] = useState([]);
-  const [teamFixtures, setTeamFixtures] = useState([]);
-  const [teamResults, setTeamResults] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
   const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
-    fetch(`${apiUrl}/clubs/${id}/`)
-      .then((res) => res.json())
-      .then(setTeam)
-      .catch(console.error);
+    setLoading(true); // Set loading to true on mount or ID change
+    
+    // Use Promise.all to fetch both data sets in parallel
+    Promise.all([
+      fetch(`${apiUrl}/clubs/${id}/`).then(res => res.json()),
+      fetch(`${apiUrl}/clubs-content/${id}`).then(res => res.json())
+    ])
+    .then(([teamData, contentData]) => {
+      setTeam(teamData);
+      setTeamContent(contentData);
+      setLoading(false); // Set loading to false after both fetches complete
+    })
+    .catch(err => {
+      console.error('Error fetching data:', err);
+      setLoading(false); // Make sure to set loading to false on error too
+    });
   }, [id]);
 
-  useEffect(() => {
-    fetch(`${apiUrl}/clubs-content/${id}`)
-      .then((res) => res.json())
-      .then(setTeamContent)
-      .catch(console.error);
-  }, [id]);
+  // Conditional rendering for the loading state
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
- 
-  if (!team) return <Typography align="center">Loading...</Typography>;
+  // Handle case where team data is not found after loading
+  if (!team) {
+    return <Typography align="center" variant="h6" sx={{ mt: 4 }}>Club not found.</Typography>;
+  }
 
   return (
-    <Box maxWidth={1000} margin="auto" px={2} py={4}>
+    <Box maxWidth={1000} margin="auto" px={2} py={4} sx={{minHeight: '75vh'}}>
       {/* Header */}
       <Box display="flex" alignItems="center" gap={2} mb={2}>
         <Avatar src={team.logo_url} alt={team.name} sx={{ width: 64, height: 64 }} />
@@ -179,7 +196,7 @@ const ClubDetailsCard = () => {
 
       {/* Results Tab */}
       {activeTab === 4 && (
-        <Box sx={{   }}>
+        <Box sx={{  }}>
           <MatchResults results={teamContent.results} />
         </Box>
       )}

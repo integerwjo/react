@@ -24,48 +24,6 @@ const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
 
 
 function App() {
-  const [clubs, setClubs] = useState([]);
-  const [matchResults, setMatchResults] = useState([]);
-  const [newsArticles, setNewsArticles] = useState([]);
-  const [matchFixtures, setMatchFixtures] = useState([]);
-  const [clubStats, setClubStats] = useState([]);
-  const [players, setPlayers] = useState([]);
-
-  useEffect(() => {
-    fetch(`${apiUrl}/standings/`)
-      .then(res => res.json())
-      .then(data => setClubStats(data))
-      .catch(err => console.error('Error fetching club stats:', err));
-  }, []);
-
-  useEffect(() => {
-    fetch(`${apiUrl}/clubs/`)
-      .then(res => res.json())
-      .then(data => setClubs(data))
-      .catch(err => console.error('Error fetching clubs:', err));
-  }, []);
-
-   useEffect(() => {
-    fetch(`${apiUrl}/news/`)
-      .then(res => res.json())
-      .then(data => setNewsArticles(data))
-      .catch(err => console.error('Error fetching news articles:', err));
-  }, []);
-
-  useEffect(() => {
-    fetch(`${apiUrl}/fixtures/`)
-      .then(res => res.json())
-      .then(data => setMatchFixtures(data))
-      .catch(err => console.error('Error fetching match fixtures:', err));
-  }, []);
-
-
-  useEffect(() => {
-    fetch(`${apiUrl}/results/`)
-      .then(res => res.json())
-      .then(data => setMatchResults(data))
-      .catch(err => console.error('Error fetching match results:', err));
-  }, []);
 
 
 const ChatRoomWrapper = () => {
@@ -78,15 +36,15 @@ const ChatRoomWrapper = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/news" element={<News articles={newsArticles} />} />
+          <Route path="/news" element={<News />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUpForm />} />
           <Route path="/players/:id" element={<PlayerDetailsCard  />} />
-          <Route path="/clubs/:id" element={<ClubDetailsCard  ClubDetails />} />
-          <Route path="/fixtures" element={<MatchFixtures fixtures={matchFixtures} />} />
-          <Route path="/league-table" element={<ScoreboardTable teams={clubStats} />} />
-          <Route path="/results" element={<MatchResults results={matchResults} />} />
-          <Route path="/clubs" element={<Clubs data={clubs} />} />
+          <Route path="/clubs/:id" element={<ClubDetailsCard   />} />
+          <Route path="/fixtures" element={<MatchFixtures  />} />
+          <Route path="/league-table" element={<ScoreboardTable  />} />
+          <Route path="/results" element={<MatchResults  />} />
+          <Route path="/clubs" element={<Clubs  />} />
           <Route path="/chat" element={<ChatScreen />} />
           <Route path="/profile" element={<UserProfile />} />
         </Routes>
