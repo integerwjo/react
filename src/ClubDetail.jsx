@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -12,116 +12,120 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Grid,
-  ButtonBase,
-  CircularProgress, // Import CircularProgress
-} from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
-import News from './News.jsx'; 
-import MatchFixtures from './Fixtures.jsx';
-import MatchResults from './Results.jsx'; // Assuming you have a MatchResults component
-import TopScorerCard from './TopScorerCard.jsx';
+  CircularProgress,
+} from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import News from "./News.jsx";
+import MatchFixtures from "./Fixtures.jsx";
+import MatchResults from "./Results.jsx";
+import TopScorerCard from "./TopScorerCard.jsx";
+import ClubNews from "./ClubNews.jsx";
 
 const apiUrl = import.meta.env.VITE_API_URL;
-
-const StatCard = ({ title, players, onPlayerClick }) => (
-  <Box
-    border="1px solid #ddd"
-    borderRadius={2}
-    px={2}
-    py={1.5}
-    minWidth={240}
-    flex={1}
-  >
-    <Typography variant="subtitle2" color="text.secondary" mb={1}>
-      {title}
-    </Typography>
-    {players.map((p, i) => (
-      <ButtonBase
-        key={p.id || i}
-        onClick={() => onPlayerClick(p.id)}
-        sx={{
-          width: '100%',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          display: 'flex',
-          py: 1,
-        }}
-      >
-        <Box display="flex" alignItems="center" gap={1}>
-          <Avatar src={p.photo_url} sx={{ width: 28, height: 28 }} />
-          <Typography variant="body2">{p.name}</Typography>
-        </Box>
-        {p.stat != null && (
-          <Box
-            bgcolor="#efefef"
-            borderRadius={1}
-            px={1}
-            fontSize={13}
-            fontWeight={500}
-          >
-            {p.stat}
-          </Box>
-        )}
-      </ButtonBase>
-    ))}
-  </Box>
-);
 
 const ClubDetailsCard = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [team, setTeam] = useState(null);
   const [teamContent, setTeamContent] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
 
   useEffect(() => {
-    setLoading(true); // Set loading to true on mount or ID change
-    
-    // Use Promise.all to fetch both data sets in parallel
+    setLoading(true);
+
     Promise.all([
-      fetch(`${apiUrl}/clubs/${id}/`).then(res => res.json()),
-      fetch(`${apiUrl}/clubs-content/${id}`).then(res => res.json())
+      fetch(`${apiUrl}/clubs/${id}/`).then((res) => res.json()),
+      fetch(`${apiUrl}/clubs-content/${id}`).then((res) => res.json()),
     ])
-    .then(([teamData, contentData]) => {
-      setTeam(teamData);
-      setTeamContent(contentData);
-      setLoading(false); // Set loading to false after both fetches complete
-    })
-    .catch(err => {
-      console.error('Error fetching data:', err);
-      setLoading(false); // Make sure to set loading to false on error too
-    });
+      .then(([teamData, contentData]) => {
+        setTeam(teamData);
+        setTeamContent(contentData);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err);
+        setLoading(false);
+      });
   }, [id]);
 
-  // Conditional rendering for the loading state
+  // cycle player avatars
+  useEffect(() => {
+    if (team?.players?.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentPlayerIndex(
+          (prev) => (prev + 1) % team.players.length
+        );
+      }, 12000); // switch every 12 secondsss
+      return () => clearInterval(interval);
+    }
+  }, [team]);
+
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+      <Box
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "80vh" }}
+      >
         <CircularProgress />
       </Box>
     );
   }
 
-  // Handle case where team data is not found after loading
   if (!team) {
-    return <Typography align="center" variant="h6" sx={{ mt: 4 }}>Club not found.</Typography>;
+    return (
+      <Typography align="center" variant="h6" sx={{ mt: 4, minHeight: "75vh" }}>
+        Club not found.
+      </Typography>
+    );
   }
 
+  const currentPlayer = team.players?.[currentPlayerIndex];
+
   return (
-    <Box maxWidth={1000} margin="auto" px={2} py={4} sx={{minHeight: '75vh'}}>
-      {/* Header */}
-      <Box display="flex" alignItems="center" gap={2} mb={2}>
-        <Avatar src={team.logo_url} alt={team.name} sx={{ width: 64, height: 64 }} />
-        <Box>
-          <Typography variant="h5" fontWeight={700}>
-            {team.name}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {team.coach ? `Coach: ${team.coach}` : 'No coach info'}
-          </Typography>
+    <Box maxWidth="1200px" margin="auto" px={3} py={5} sx={{ minHeight: "75vh" }}>
+      {/* Header Section */}
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{
+          p: 4,
+          borderRadius: 1,
+          background: '#fdfdfd',
+          boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+          mb: 4,
+        }}
+      >
+        <Box display="flex" alignItems="center" gap={3}>
+          <Avatar
+            src={team.logo_url}
+            alt={team.name}
+            sx={{ width: 100, height: 100, border: "3px solid #ddd" }}
+          />
+          <Box>
+            <Typography variant="h4" fontWeight={700}>
+              {team.name}
+            </Typography>
+            <Typography variant="h6" color="text.secondary">
+              {team.coach ? `Coach: ${team.coach}` : "Coach info not available"}
+            </Typography>
+          </Box>
         </Box>
+
+        {/* Single cycling player avatar */}
+        {currentPlayer && (
+          <Avatar
+            src={currentPlayer.photo_url}
+            alt={currentPlayer.name}
+            sx={{
+              width: 100,
+              height: 100,
+              border: "3px solid #fff",
+              boxShadow: "0 3px 12px rgba(0,0,0,0.15)",
+            }}
+          />
+        )}
       </Box>
 
       {/* Tabs */}
@@ -130,10 +134,14 @@ const ClubDetailsCard = () => {
         onChange={(e, newValue) => setActiveTab(newValue)}
         variant="scrollable"
         scrollButtons="auto"
-        sx={{ borderBottom: '1px solid #ddd', mb: 3 }}
+        sx={{
+          borderBottom: "2px solid #ddd",
+          mb: 4,
+          "& .MuiTab-root": { fontSize: "1rem", fontWeight: 600, px: 2 },
+        }}
       >
         <Tab label="Squad" />
-        <Tab label="Stats" />
+        <Tab label="Top Goal Scorer" />
         <Tab label="News" />
         <Tab label="Fixtures" />
         <Tab label="Results" />
@@ -141,13 +149,13 @@ const ClubDetailsCard = () => {
 
       {/* Squad Tab */}
       {activeTab === 0 && (
-        <TableContainer >
+        <TableContainer component={Paper} sx={{ borderRadius: 1, boxShadow: 1 }}>
           <Table>
-            <TableHead sx={{ backgroundColor: '#f6f3f3ff' }}>
+            <TableHead sx={{ backgroundColor: "#f8f9fc" }}>
               <TableRow>
-                <TableCell>Player</TableCell>
-                <TableCell>Position</TableCell>
-                <TableCell>Number</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Player</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Position</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Number</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -156,16 +164,16 @@ const ClubDetailsCard = () => {
                   key={player.id}
                   hover
                   onClick={() => navigate(`/players/${player.id}`)}
-                  sx={{ cursor: 'pointer' }}
+                  sx={{ cursor: "pointer" }}
                 >
                   <TableCell>
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Avatar src={player.photo_url} sx={{ width: 28, height: 28 }} />
-                      {player.name}
+                    <Box display="flex" alignItems="center" gap={2}>
+                      <Avatar src={player.photo_url} sx={{ width: 40, height: 40 }} />
+                      <Typography fontWeight={500}>{player.name}</Typography>
                     </Box>
                   </TableCell>
-                  <TableCell>{player.position || '-'}</TableCell>
-                  <TableCell>{player.number || '-'}</TableCell>
+                  <TableCell>{player.position || "-"}</TableCell>
+                  <TableCell>{player.number || "-"}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -173,31 +181,31 @@ const ClubDetailsCard = () => {
         </TableContainer>
       )}
 
-      {/* Stats Tab */}
+      {/* Top Scorer Tab */}
       {activeTab === 1 && (
         <Box>
-          <TopScorerCard player={team.top_scorer}/>
+          <TopScorerCard player={team.top_scorer} />
         </Box>
       )}
 
       {/* News Tab */}
       {activeTab === 2 && (
         <Box>
-          <News articles={teamContent.news} />
+          <ClubNews articles={teamContent.news || []} />
         </Box>
       )}
 
       {/* Fixtures Tab */}
       {activeTab === 3 && (
         <Box>
-          <MatchFixtures fixtures={teamContent.fixtures} />
+          <MatchFixtures fixtures={teamContent.fixtures || []} />
         </Box>
       )}
 
       {/* Results Tab */}
       {activeTab === 4 && (
-        <Box sx={{  }}>
-          <MatchResults results={teamContent.results} />
+        <Box>
+          <MatchResults results={teamContent.results || []} />
         </Box>
       )}
     </Box>

@@ -8,7 +8,7 @@ const TopScorerCard = ({ player }) => {
     <Card
       elevation={3}
       sx={{
-        borderRadius: 2,
+        borderRadius: 1,
         background: "#fff",
         boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
         p: 2,
@@ -22,7 +22,7 @@ const TopScorerCard = ({ player }) => {
           sx={{
             width: 64,
             height: 64,
-            border: "2px solid #e0e0e0",
+            border: "2px solid #010b4eff",
           }}
         />
         <Box>

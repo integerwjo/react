@@ -29,7 +29,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 
 const iconMap = {
   Home: <HomeIcon />,
@@ -48,6 +48,7 @@ const NavBar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
+  const location = useLocation();
 
   const token = localStorage.getItem('access'); // Check if user is logged in
 
@@ -61,7 +62,7 @@ const NavBar = () => {
     navigate('/'); // Redirect after logout
   };
 
-  // Base nav items (without sign in / logout / chat)
+  // Base nav items
   const baseNavItems = [
     { label: 'Home', path: '/' },
     { label: 'News', path: '/news' },
@@ -71,7 +72,7 @@ const NavBar = () => {
     { label: 'Clubs', path: '/clubs' },
   ];
 
-  // Build final nav items array
+  // Final nav items
   let navItems = [...baseNavItems];
 
   if (token) {
@@ -100,8 +101,16 @@ const NavBar = () => {
     >
       <Box>
         <Box display="flex" alignItems="center" gap={1} mb={2}>
-          <Avatar sx={{ backgroundColor: '#1f2937', }}>
-            <SportsSoccerIcon />
+          <Avatar sx={{ backgroundColor: '#1f2937' }}>
+            <SportsSoccerIcon
+              sx={{
+                animation: 'spin 6s linear infinite',
+                '@keyframes spin': {
+                  '0%': { transform: 'rotate(0deg)' },
+                  '100%': { transform: 'rotate(360deg)' },
+                },
+              }}
+            />
           </Avatar>
           <Typography variant="h6" fontWeight={600}>
             EFL
@@ -109,76 +118,73 @@ const NavBar = () => {
         </Box>
         <Divider />
         <List sx={{ mt: 2 }}>
-          {navItems.map(({ label, path, action }) => (
-            <ListItem key={label} disablePadding>
-              {action ? (
-                <ListItemButton
-                  onClick={action}
-                  sx={{
-                    borderRadius: 1,
-                    py: 1.5,
-                    px: 2,
-                    my: 0.5,
-                    transition: '0.15s',
-                    '&:hover': {
-                      backgroundColor: '#f9f9f9',
-                      color: 'white',
-                    },
-                    textDecoration: 'none',
-                    color: 'inherit',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  {iconMap[label] && (
-                    <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
-                      {iconMap[label]}
-                    </Box>
-                  )}
-                  <ListItemText
-                    primary={label}
-                    primaryTypographyProps={{
-                      fontWeight: 500,
-                      fontSize: '1rem',
+          {navItems.map(({ label, path, action }) => {
+            const active = path && location.pathname === path;
+            return (
+              <ListItem key={label} disablePadding>
+                {action ? (
+                  <ListItemButton
+                    onClick={action}
+                    sx={{
+                      borderRadius: 1,
+                      py: 1.5,
+                      px: 2,
+                      my: 0.5,
+                      backgroundColor: active ? '#e5e7eb' : 'transparent',
+                      color: active ? 'black' : 'inherit',
+                      '&:hover': {
+                        backgroundColor: '#f9f9f9',
+                        color: 'black',
+                      },
                     }}
-                  />
-                </ListItemButton>
-              ) : (
-                <ListItemButton
-                  component={RouterLink}
-                  to={path}
-                  sx={{
-                    borderRadius: 1,
-                    py: 1.5,
-                    px: 2,
-                    my: 0.5,
-                    transition: '0.15s',
-                    '&:hover': {
-                      backgroundColor: '#f9f9f9',
-                      color: 'black',
-                    },
-                    textDecoration: 'none',
-                    color: 'inherit',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  {iconMap[label] && (
-                    <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
-                      {iconMap[label]}
-                    </Box>
-                  )}
-                  <ListItemText
-                    primary={label}
-                    primaryTypographyProps={{
-                      fontWeight: 500,
-                      fontSize: '1rem',
+                  >
+                    {iconMap[label] && (
+                      <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
+                        {iconMap[label]}
+                      </Box>
+                    )}
+                    <ListItemText
+                      primary={label}
+                      primaryTypographyProps={{
+                        fontWeight: active ? 700 : 500,
+                        fontSize: '1rem',
+                      }}
+                    />
+                  </ListItemButton>
+                ) : (
+                  <ListItemButton
+                    component={RouterLink}
+                    to={path}
+                    sx={{
+                      borderRadius: 1,
+                      py: 1.5,
+                      px: 2,
+                      my: 0.5,
+                      backgroundColor: active ? '#e5e7eb' : 'transparent',
+                      color: active ? 'black' : 'inherit',
+                      '&:hover': {
+                        backgroundColor: '#f9f9f9',
+                        color: 'black',
+                      },
                     }}
-                  />
-                </ListItemButton>
-              )}
-            </ListItem>
-          ))}
+                  >
+                    {iconMap[label] && (
+                      <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
+                        {iconMap[label]}
+                      </Box>
+                    )}
+                    <ListItemText
+                      primary={label}
+                      primaryTypographyProps={{
+                        fontWeight: active ? 700 : 500,
+                        fontSize: '1rem',
+                      }}
+                    />
+                  </ListItemButton>
+                )}
+              </ListItem>
+            );
+          })}
         </List>
       </Box>
       <Box textAlign="center" fontSize="0.8rem" pb={2} color="text.secondary">
@@ -194,14 +200,31 @@ const NavBar = () => {
           elevation={3}
           position="sticky"
           sx={{
-            //background: 'linear-gradient(to right, #0f3540ff, #1a4b5aff)',
-            backgroundColor:'#1f2937',
+            backgroundColor: '#1f2937',
             boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
           }}
         >
           <Toolbar sx={{ px: { xs: 2, md: 4 } }}>
-            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 600 }}>
-              ⚽ EFL
+            <Typography
+              variant="h6"
+              sx={{
+                flexGrow: 1,
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
+              <SportsSoccerIcon
+                sx={{
+                  animation: 'spin 6s linear infinite',
+                  '@keyframes spin': {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '100%': { transform: 'rotate(360deg)' },
+                  },
+                }}
+              />
+              EFL
             </Typography>
 
             {isMobile ? (
@@ -229,16 +252,21 @@ const NavBar = () => {
               </>
             ) : (
               <Box display="flex" gap={1}>
-                {navItems.map(({ label, path, action }) =>
-                  action ? (
+                {navItems.map(({ label, path, action }) => {
+                  const active = path && location.pathname === path;
+                  return action ? (
                     <Button
                       key={label}
                       onClick={action}
                       color="inherit"
                       sx={{
                         textTransform: 'none',
-                        fontWeight: 500,
+                        fontWeight: active ? 700 : 500,
                         fontSize: '1rem',
+                        backgroundColor: active
+                          ? 'rgba(255,255,255,0.25)'
+                          : 'transparent',
+                        borderBottom: active ? '2px solid #fff' : 'none',
                         '&:hover': {
                           backgroundColor: 'rgba(255,255,255,0.15)',
                         },
@@ -254,8 +282,12 @@ const NavBar = () => {
                       color="inherit"
                       sx={{
                         textTransform: 'none',
-                        fontWeight: 500,
+                        fontWeight: active ? 700 : 500,
                         fontSize: '1rem',
+                        backgroundColor: active
+                          ? 'rgba(255,255,255,0.25)'
+                          : 'transparent',
+                        borderBottom: active ? '2px solid #fff' : 'none',
                         '&:hover': {
                           backgroundColor: 'rgba(255,255,255,0.15)',
                         },
@@ -263,8 +295,8 @@ const NavBar = () => {
                     >
                       {label}
                     </Button>
-                  )
-                )}
+                  );
+                })}
               </Box>
             )}
           </Toolbar>
@@ -275,4 +307,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-

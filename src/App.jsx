@@ -7,15 +7,15 @@ import AnnouncementsPage from "./Announcements.jsx";
 import CustomizedTables from "./Table.jsx";
 import MatchFixtures from "./Fixtures.jsx";
 import Clubs from './Clubs.jsx'
-import MatchResults from "./Results.jsx"; // Assuming you want to use MatchResults in the app
+import MatchResults from "./Results.jsx"; 
 import ScoreboardTable from "./Table.jsx";
 import ClubDetailsCard from "./ClubDetail.jsx";
-import PlayerDetailsCard from "./PlayerDetails.jsx"; // Importing PlayerDetailsCard
+import PlayerDetailsCard from "./PlayerDetails.jsx"; 
 import SignIn from "./SignIn.jsx";
 import SignUpForm from "./SignUp.jsx";
-import News from "./News.jsx"; // Importing News component
-import ChatScreen from "./Chats.jsx"; // Importing Chat component
-import ChatRoom from "./ChatRoom.jsx"; // Importing ChatRoom component
+import News from "./News.jsx"; 
+import ChatScreen from "./Chats.jsx"; 
+import ChatRoom from "./ChatRoom.jsx"; 
 import UserProfile from './Profile.jsx'
 
 const apiUrl = import.meta.env.VITE_API_URL;

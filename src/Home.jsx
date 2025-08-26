@@ -206,7 +206,7 @@ function Home() {
                       display: 'flex',
                       alignItems: 'center',
                       p: 3,
-                      borderRadius: 2,
+                      borderRadius: 1,
                       boxShadow: '0 3px 6px rgba(0,0,0,0.04)',
                       transition:
                         'transform 0.3s ease, box-shadow 0.3s ease',
@@ -222,7 +222,7 @@ function Home() {
                         width: 84,
                         height: 84,
                         mr: 3,
-                        border: '3px solid #1976d2',
+                        border: '1.5px solid #010b4eff',
                         borderRadius: '50%',
                       }}
                     />

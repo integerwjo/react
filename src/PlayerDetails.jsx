@@ -61,7 +61,7 @@ const PlayerDetailsCard = () => {
           <Avatar
             src={photo_url}
             alt={name}
-            sx={{ width: 150, height: 150 }}
+            sx={{ width: 150, height: 150, border: '1px solid #010b4eff', }}
           />
           <Typography variant="h5" fontWeight={800}>
             {name}

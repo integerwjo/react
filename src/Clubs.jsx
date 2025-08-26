@@ -35,7 +35,7 @@ const Clubs = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "flex-start", minHeight: 300, pt: 6 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "flex-start", minHeight: '78vh', pt: 6 }}>
         <CircularProgress />
       </Box>
     );

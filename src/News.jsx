@@ -32,7 +32,7 @@ const News = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 6, minHeight: "80vh" }}>
+    <Container maxWidth="md" sx={{ py: 2, minHeight: "80vh" }}>
       <Typography
         variant="h5"
         fontWeight={700}
@@ -71,7 +71,7 @@ const News = () => {
                 cursor: 'pointer',
                 textDecoration: 'none',
                 '&:hover': {
-                  boxShadow: '0 6px 12px rgba(0,0,0,0.12)',
+                  boxShadow: '0 4px 8px rgba(0,0,0,0.08)',
                 },
               }}
             >
