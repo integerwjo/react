@@ -13,6 +13,8 @@ import {
   TableRow,
   Paper,
   CircularProgress,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import News from "./News.jsx";
@@ -30,7 +32,10 @@ const ClubDetailsCard = () => {
   const [teamContent, setTeamContent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
-  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
+  const [currentPlayerIndex, setCurrentPlayerIndex] = useState(null);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     setLoading(true);
@@ -42,6 +47,12 @@ const ClubDetailsCard = () => {
       .then(([teamData, contentData]) => {
         setTeam(teamData);
         setTeamContent(contentData);
+
+        if (teamData?.players?.length > 0) {
+          const randomIndex = Math.floor(Math.random() * teamData.players.length);
+          setCurrentPlayerIndex(randomIndex);
+        }
+
         setLoading(false);
       })
       .catch((err) => {
@@ -49,18 +60,6 @@ const ClubDetailsCard = () => {
         setLoading(false);
       });
   }, [id]);
-
-  // cycle player avatars
-  useEffect(() => {
-    if (team?.players?.length > 0) {
-      const interval = setInterval(() => {
-        setCurrentPlayerIndex(
-          (prev) => (prev + 1) % team.players.length
-        );
-      }, 12000); // switch every 12 secondsss
-      return () => clearInterval(interval);
-    }
-  }, [team]);
 
   if (loading) {
     return (
@@ -80,47 +79,55 @@ const ClubDetailsCard = () => {
     );
   }
 
-  const currentPlayer = team.players?.[currentPlayerIndex];
+  const currentPlayer =
+    currentPlayerIndex !== null ? team.players?.[currentPlayerIndex] : null;
 
   return (
-    <Box maxWidth="1200px" margin="auto" px={3} py={5} sx={{ minHeight: "75vh" }}>
+    <Box maxWidth="1200px" margin="auto" px={{ xs: 2, sm: 3 }} py={5} sx={{ minHeight: "75vh" }}>
       {/* Header Section */}
       <Box
         display="flex"
+        flexDirection="row" // stay row always
         alignItems="center"
         justifyContent="space-between"
         sx={{
-          p: 4,
+          p: { xs: 2, sm: 4 },
           borderRadius: 1,
-          background: '#fdfdfd',
+          background: "#fdfdfd",
           boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
           mb: 4,
+          gap: 2,
         }}
       >
-        <Box display="flex" alignItems="center" gap={3}>
+        {/* Club Info + Logo */}
+        <Box display="flex" alignItems="center" gap={2}>
           <Avatar
             src={team.logo_url}
             alt={team.name}
-            sx={{ width: 100, height: 100, border: "3px solid #ddd" }}
+            sx={{
+              width: isMobile ? 60 : 100,
+              height: isMobile ? 60 : 100,
+              border: "3px solid #ddd",
+            }}
           />
           <Box>
-            <Typography variant="h4" fontWeight={700}>
+            <Typography variant={isMobile ? "h6" : "h4"} fontWeight={700}>
               {team.name}
             </Typography>
-            <Typography variant="h6" color="text.secondary">
+            <Typography variant="body2" color="text.secondary">
               {team.coach ? `Coach: ${team.coach}` : "Coach info not available"}
             </Typography>
           </Box>
         </Box>
 
-        {/* Single cycling player avatar */}
+        {/* Player Image */}
         {currentPlayer && (
           <Avatar
             src={currentPlayer.photo_url}
             alt={currentPlayer.name}
             sx={{
-              width: 100,
-              height: 100,
+              width: isMobile ? 60 : 100,
+              height: isMobile ? 60 : 100,
               border: "3px solid #fff",
               boxShadow: "0 3px 12px rgba(0,0,0,0.15)",
             }}
@@ -137,7 +144,11 @@ const ClubDetailsCard = () => {
         sx={{
           borderBottom: "2px solid #ddd",
           mb: 4,
-          "& .MuiTab-root": { fontSize: "1rem", fontWeight: 600, px: 2 },
+          "& .MuiTab-root": {
+            fontSize: { xs: "0.85rem", sm: "1rem" },
+            fontWeight: 600,
+            px: { xs: 1, sm: 2 },
+          },
         }}
       >
         <Tab label="Squad" />
@@ -149,8 +160,8 @@ const ClubDetailsCard = () => {
 
       {/* Squad Tab */}
       {activeTab === 0 && (
-        <TableContainer component={Paper} sx={{ borderRadius: 1, boxShadow: 1 }}>
-          <Table>
+        <TableContainer sx={{  overflowX: "auto" }}>
+          <Table size={isMobile ? "small" : "medium"}>
             <TableHead sx={{ backgroundColor: "#f8f9fc" }}>
               <TableRow>
                 <TableCell sx={{ fontWeight: "bold" }}>Player</TableCell>
@@ -168,8 +179,10 @@ const ClubDetailsCard = () => {
                 >
                   <TableCell>
                     <Box display="flex" alignItems="center" gap={2}>
-                      <Avatar src={player.photo_url} sx={{ width: 40, height: 40 }} />
-                      <Typography fontWeight={500}>{player.name}</Typography>
+                      <Avatar src={player.photo_url} sx={{ width: 35, height: 35 }} />
+                      <Typography fontWeight={500} fontSize={{ xs: "0.9rem", sm: "1rem" }}>
+                        {player.name}
+                      </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>{player.position || "-"}</TableCell>
@@ -183,28 +196,28 @@ const ClubDetailsCard = () => {
 
       {/* Top Scorer Tab */}
       {activeTab === 1 && (
-        <Box>
+        <Box mt={2}>
           <TopScorerCard player={team.top_scorer} />
         </Box>
       )}
 
       {/* News Tab */}
       {activeTab === 2 && (
-        <Box>
+        <Box mt={2}>
           <ClubNews articles={teamContent.news || []} />
         </Box>
       )}
 
       {/* Fixtures Tab */}
       {activeTab === 3 && (
-        <Box>
+        <Box mt={2}>
           <MatchFixtures fixtures={teamContent.fixtures || []} />
         </Box>
       )}
 
       {/* Results Tab */}
       {activeTab === 4 && (
-        <Box>
+        <Box mt={2}>
           <MatchResults results={teamContent.results || []} />
         </Box>
       )}
