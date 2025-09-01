@@ -222,7 +222,7 @@ function Home() {
                         width: 84,
                         height: 84,
                         mr: 3,
-                        border: '1.5px solid #010b4eff',
+                        border: '1.5px solid #ddd',
                         borderRadius: '50%',
                       }}
                     />
